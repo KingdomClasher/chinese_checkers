@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chinese Checkers Multiplayer</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="panel">
+        <h1>Chinese Checkers</h1>
+        <form id="join-form" class="join-form">
+          <label>
+            Name
+            <input id="name" maxlength="24" placeholder="Player name" required />
+          </label>
+          <label>
+            Room code
+            <input id="room" maxlength="6" placeholder="Leave blank to create" />
+          </label>
+          <button type="submit">Join Room</button>
+        </form>
+        <p id="room-label" class="room-label"></p>
+        <p id="status" class="status">Join a room to start.</p>
+        <ul id="players" class="players"></ul>
+      </section>
+
+      <section class="board-wrap">
+        <svg id="board" class="board" aria-label="Chinese Checkers board"></svg>
+      </section>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/app.js" defer></script>
+  </body>
+</html>
