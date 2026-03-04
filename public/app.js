@@ -1,4 +1,5 @@
-const socket = io();
+const socketServerUrl = window.CHINESE_CHECKERS_SOCKET_URL || window.location.origin;
+const socket = io(socketServerUrl);
 
 const ROW_LENGTHS = [1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1];
 const CELL_SIZE = 22;

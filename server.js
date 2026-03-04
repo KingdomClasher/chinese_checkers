@@ -4,7 +4,13 @@ const { Server } = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || "*";
+const io = new Server(server, {
+  cors: {
+    origin: CLIENT_ORIGIN === "*" ? true : CLIENT_ORIGIN.split(",").map((origin) => origin.trim()),
+    methods: ["GET", "POST"]
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 const ROW_LENGTHS = [1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1];

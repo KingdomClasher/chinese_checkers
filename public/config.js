@@ -1,0 +1,1 @@
+window.CHINESE_CHECKERS_SOCKET_URL = "";

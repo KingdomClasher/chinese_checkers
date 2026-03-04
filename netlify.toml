@@ -1,0 +1,3 @@
+[build]
+  command = "node -e \"const fs=require('fs'); const url=process.env.SOCKET_SERVER_URL || ''; fs.writeFileSync('public/config.js', 'window.CHINESE_CHECKERS_SOCKET_URL = ' + JSON.stringify(url) + ';\\n');\""
+  publish = "public"
