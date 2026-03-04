@@ -1,6 +1,6 @@
 # Chinese Checkers Web App
 
-Realtime Chinese Checkers for desktop and mobile browsers with 2-player multiplayer rooms.
+Realtime Chinese Checkers for desktop and mobile browsers with multiplayer rooms.
 
 ## Run locally
 
