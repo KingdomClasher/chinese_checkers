@@ -24,6 +24,8 @@ This app uses Socket.IO, so Netlify should host the frontend only (`public/`) wh
 
 After deploy, users open the Netlify URL and the browser connects to your external Socket.IO server.
 
+<img width="1480" height="820" alt="Chinese Checkers Win" src="https://github.com/user-attachments/assets/28fa5b90-c005-42ab-8b23-6be8991b3cdf" />
+
 ## Contributing online
 
 Repository: `https://github.com/KingdomClasher/chinese_checkers`
