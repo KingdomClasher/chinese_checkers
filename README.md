@@ -2,6 +2,8 @@
 
 Realtime Chinese Checkers for desktop and mobile browsers with 2-player multiplayer rooms.
 
+![preview.png]
+
 ## Run locally
 
 ```bash
@@ -23,6 +25,10 @@ This app uses Socket.IO, so Netlify should host the frontend only (`public/`) wh
 4. Deploy; `netlify.toml` will publish `public/` and generate `public/config.js` with that backend URL.
 
 After deploy, users open the Netlify URL and the browser connects to your external Socket.IO server.
+
+If "Join Room" appears unresponsive on Netlify, verify:
+- `SOCKET_SERVER_URL` is set to your Railway backend URL in Netlify.
+- `CLIENT_ORIGIN` on Railway includes your Netlify site URL.
 
 ## Contributing online
 

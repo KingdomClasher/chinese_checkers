@@ -1,5 +1,20 @@
-const socketServerUrl = window.CHINESE_CHECKERS_SOCKET_URL || window.location.origin;
-const socket = io(socketServerUrl);
+function resolveSocketServerUrl() {
+  const configuredUrl = String(window.CHINESE_CHECKERS_SOCKET_URL || "").trim();
+  if (!configuredUrl) {
+    return { url: window.location.origin, hasInvalidConfiguredUrl: false };
+  }
+  if (!URL.canParse(configuredUrl, window.location.origin)) {
+    return { url: window.location.origin, hasInvalidConfiguredUrl: true };
+  }
+  const parsedUrl = new URL(configuredUrl, window.location.origin);
+  if (window.location.protocol === "https:" && parsedUrl.protocol === "http:") {
+    parsedUrl.protocol = "https:";
+  }
+  return { url: parsedUrl.origin, hasInvalidConfiguredUrl: false };
+}
+
+const socketConnection = resolveSocketServerUrl();
+const socket = io(socketConnection.url);
 
 const ROW_LENGTHS = [1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1];
 const CELL_SIZE = 22;
@@ -59,6 +74,12 @@ function getPlayer(id) {
   return state?.players.find((player) => player.id === id) || null;
 }
 
+function getViewDirection() {
+  if (!state) return 1;
+  const viewerIndex = state.players.findIndex((player) => player.id === state.youId);
+  return viewerIndex === 0 ? -1 : 1;
+}
+
 function renderPlayers() {
   playersEl.innerHTML = "";
   if (!state) return;
@@ -99,11 +120,12 @@ function renderStatus() {
 function renderBoard() {
   boardEl.innerHTML = "";
   const board = state?.board || {};
+  const viewDirection = getViewDirection();
 
   CELLS.forEach((cell) => {
     const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    circle.setAttribute("cx", cell.px);
-    circle.setAttribute("cy", cell.py);
+    circle.setAttribute("cx", cell.px * viewDirection);
+    circle.setAttribute("cy", cell.py * viewDirection);
     circle.setAttribute("r", cellRadius);
     circle.dataset.key = cell.key;
 
@@ -133,6 +155,10 @@ function rerender() {
 
 joinForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  if (!socket.connected) {
+    statusEl.textContent = "Can't reach game server. Check SOCKET_SERVER_URL and CLIENT_ORIGIN.";
+    return;
+  }
   socket.emit("joinRoom", {
     name: nameInput.value,
     roomCode: roomInput.value
@@ -187,4 +213,17 @@ socket.on("legalMoves", (payload) => {
 
 socket.on("errorMessage", (message) => {
   statusEl.textContent = message;
+});
+
+socket.on("connect_error", () => {
+  const setupHint = socketConnection.hasInvalidConfiguredUrl
+    ? "SOCKET_SERVER_URL is invalid."
+    : "Check SOCKET_SERVER_URL and CLIENT_ORIGIN.";
+  statusEl.textContent = `Can't reach game server. ${setupHint}`;
+});
+
+socket.on("disconnect", () => {
+  if (!state) {
+    statusEl.textContent = "Disconnected from game server.";
+  }
 });
