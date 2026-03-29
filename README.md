@@ -1,6 +1,6 @@
 # Chinese Checkers Web App
 
-Realtime Chinese Checkers for desktop and mobile browsers with 2-player multiplayer rooms.
+Realtime Chinese Checkers for desktop and mobile browsers with multiplayer rooms.
 
 ![preview.png]
 
@@ -26,9 +26,13 @@ This app uses Socket.IO, so Netlify should host the frontend only (`public/`) wh
 
 After deploy, users open the Netlify URL and the browser connects to your external Socket.IO server.
 
+<<<<<<< HEAD
 If "Join Room" appears unresponsive on Netlify, verify:
 - `SOCKET_SERVER_URL` is set to your Railway backend URL in Netlify.
 - `CLIENT_ORIGIN` on Railway includes your Netlify site URL.
+=======
+<img width="1480" height="820" alt="Chinese Checkers Win" src="https://github.com/user-attachments/assets/28fa5b90-c005-42ab-8b23-6be8991b3cdf" />
+>>>>>>> aecd9a7fd3fa554532cf66d34072e124806b72ab
 
 ## Contributing online
 
